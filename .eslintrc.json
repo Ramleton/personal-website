@@ -1,3 +1,94 @@
 {
-  "extends": "next/core-web-vitals"
+	"extends": "next/core-web-vitals",
+	"rules": {
+		"semi": "warn",
+		"curly": "warn",
+		"no-eval": "error",
+		"indent": [
+			"warn",
+			"tab"
+		],
+		"jsx-quotes": [
+			"warn",
+			"prefer-single"
+		],
+		"key-spacing": [
+			"warn",
+			{
+				"beforeColon": false,
+				"afterColon": true,
+				"mode": "strict"
+			}
+		],
+		"max-len": [
+			"warn",
+			{
+				"code": 80,
+				"ignoreComments": true,
+				"ignoreTrailingComments": true
+			}
+		],
+		"multiline-ternary": [
+			"warn",
+			"always-multiline"
+		],
+		"max-statements-per-line": [
+			"error"
+		],
+		"object-curly-spacing": [
+			"warn",
+			"always"
+		],
+		"rest-spread-spacing": [
+			"error",
+			"never"
+		],
+		"padding-line-between-statements": [
+			"error",
+			{
+				"blankLine": "always",
+				"prev": [
+					"const",
+					"let",
+					"multiline-const",
+					"multiline-let"
+				],
+				"next": [
+					"block",
+					"block-like",
+					"do",
+					"function",
+					"if",
+					"iife",
+					"multiline-block-like",
+					"switch",
+					"try",
+					"while",
+					"for",
+					"expression"
+				]
+			}
+		],
+		"no-var": "error",
+		"prefer-const": [
+			"warn",
+			{
+				"destructuring": "any"
+			}
+		],
+		"arrow-parens": [
+			"error",
+			"as-needed"
+		],
+		"comma-style": [
+			"error",
+			"last"
+		],
+		"prefer-arrow-callback": "error",
+		"no-mixed-spaces-and-tabs": "error",
+		"comma-dangle": "warn",
+		"prefer-template": "error",
+		"no-extra-semi": "error",
+		"no-extra-parens": "error"
+	}
 }
