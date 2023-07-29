@@ -17,8 +17,11 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 					grid-cols-1 auto-rows-max h-screen w-screen
 					bg-white dark:bg-app-bg-dark gap-y-2
 				`}>
-					<Navbar />
+					<header>
+						<Navbar />
+					</header>
 					{children}
+					<footer />
 				</div>
 			</body>
 		</html>

@@ -32,7 +32,7 @@ const Navbar = () => {
 						icon={<VscGithub size={40} />}
 						href={
 							process.env.GITHUB_URL
-							?? 'github.com/Ramleton'
+							?? 'https://github.com/Ramleton'
 						}
 					/>
 					<IconButton
