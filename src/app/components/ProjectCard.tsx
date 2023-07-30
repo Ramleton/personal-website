@@ -24,7 +24,7 @@ const ProjectCard = async ({
 			<div className={`
 				border-solid border-2 rounded-lg
 				border-green-400 w-[250px] h-[250px]
-				flex flex-col flex-basis
+				flex flex-col flex-basis select-none
 			`}>
 				<div className='relative basis-2/3'>
 					<Image className='rounded-t-lg'

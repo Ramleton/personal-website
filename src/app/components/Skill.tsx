@@ -12,7 +12,11 @@ const Skill = ({
 	skill_img_alt
 }: SkillProps) => {
 	return (
-		<a className='w-[90px] h-[90px] mx-auto'
+		<a
+			className='
+				w-[90px] h-[90px] mx-auto
+				select-none
+			'
 			href={skill_src}
 			target='_blank'
 			rel='noreferrer'

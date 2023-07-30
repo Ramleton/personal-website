@@ -5,45 +5,50 @@ const Navbar = () => {
 	return (
 		<div className='dark:bg-nav-bg-dark'>
 			<div className='
-				grid grid-cols-3 grid-rows-1
+				flex flex-row flex-basis
 				h-[90px] border-b-2 mx-16 dark:border-slate-700
 			'>
-				{/** Left Div */}
 				<div className='
-					flex flex-row justify-start items-center
+					flex flex-row items-center
+					gap-x-4 basis-1/3 pr-4
 				'>
 					<TextButton
 						text='Contact me'
 						href={`mailto:${
 							process.env.CONTACT_EMAIL
-							?? 'ishaansaini@outlook.com'
+									?? 'ishaansaini@outlook.com'
 						}`}
 					/>
+					<TextButton
+						text='Resume/CV'
+						href={process.env.RESUME_URL || ''}
+					/>
 				</div>
-				{/** Center Div */}
 				<div className='
-					flex flex-row justify-center
-					items-center mx-2
-				'>
-					<span className='text-4xl'>{process.env.DOMAIN}</span>
+						flex flex-row items-center justify-center basis-1/3
+					'>
+					<span className='
+						text-4xl select-none
+					'>
+						{process.env.DOMAIN}
+					</span>
 				</div>
-				{/** Right Div */}
 				<div className='
-					flex flex-row justify-end items-center
-					gap-x-4
-				'>
+						flex flex-row items-center pl-4
+						gap-x-4 justify-end basis-1/3
+					'>
 					<IconButton
 						icon={<VscGithub size={40} />}
 						href={
 							process.env.GITHUB_URL
-							?? 'https://github.com/Ramleton'
+									?? 'https://github.com/Ramleton'
 						}
 					/>
 					<IconButton
 						icon={<SiLinkedin size={40} />}
 						href={
 							process.env.LINKEDIN_URL
-							?? ''
+									?? ''
 						}
 					/>
 				</div>
@@ -71,9 +76,14 @@ const TextButton = ({ text, href, target = '_blank' }: TextButtonProps) => {
 				dark:bg-nav-button-bg-dark
 				dark:hover:bg-nav-button-bg-hover-dark
 				rounded-lg px-3 py-3 w-fit h-fit
-				hover:cursor-pointer
+				hover:cursor-pointer select-none
 			'>
-				<span className='text-2xl dark:text-slate-200'>{text}</span>
+				<span className='
+					text-2xl dark:text-slate-200
+					whitespace-nowrap
+				'>
+					{text}
+				</span>
 			</div>
 		</a>
 	);

@@ -41,7 +41,7 @@ const HomePage = () => {
 					</div>
 					<HorizontalDividerLine />
 					<div>
-						<h1 className='text-3xl'><b>Projects</b></h1>
+						<h1 className='text-3xl pb-2'><b>Projects</b></h1>
 						<div className='
 							flex flex-row w-full min-h-fit items-center
 							dark:bg-nav-bg-dark py-2 px-4 gap-x-2
