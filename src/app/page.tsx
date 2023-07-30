@@ -7,25 +7,23 @@ import { skills } from './skills';
 
 const HomePage = () => {
 	return (
-		<div className='flex flex-col'>
+		<div className='flex flex-col w-screen h-auto'>
 			<div className='
-				flex flex-row py-[14px] px-4 gap-x-8 flex-basis
-				h-[500px]
+				grid grid-flow-col grid-rows-1 py-[14px] gap-x-8
+				w-auto h-[500px] mx-4
 			'>
-				<div className='relative h-full w-auto basis-1/4'>
+				<div className='relative w-[400px] h-auto'>
 					<Image
 						className='
 							border-double border-8 border-green-400
 						'
 						src={process.env.PFP_IMG_URL || ''}
 						alt='Profile Image'
-						// width={400}
-						// height={400}
 						fill={true}
 					/>
 				</div>
 				<div className='
-					flex flex-col basis-3/4 px-2 py-2
+					flex flex-col basis-3/4 py-2
 					gap-y-2 justify-center
 				'>
 					<h1 className='text-3xl'><b>Hello!</b></h1>
@@ -44,6 +42,7 @@ const HomePage = () => {
 					<div className='
 						flex flex-row w-full h-full items-center
 						dark:bg-nav-bg-dark py-2 px-4 gap-x-2
+						overflow-x-auto overflow-y-hidden
 					'>
 						{
 							projects.map((project, i) => <ProjectCard
@@ -58,16 +57,18 @@ const HomePage = () => {
 					</div>
 				</div>
 			</div>
+			{/** grid grid-rows-1 grid-flow-col  */}
 			{/** Skills Section */}
-			<div className='grid grid-flow-row grid-cols-1 mx-4 gap-y-2'>
+			<div className='grid grid-flow-row grid-cols-1 gap-y-2 mx-4'>
 				<h1 className='text-3xl'><b>Skills</b></h1>
 				<div className='
-					flex flex-row items-center py-2 gap-x-2 px-2 justify-center
-					dark:bg-nav-bg-dark w-full h-[120px]
+					flex flex-row gap-x-2
+					items-center py-2 px-2
+					dark:bg-nav-bg-dark w-auto h-[120px]
+					overflow-x-auto overflow-y-hidden
 				'>
 					{skills.map((skill, i) => <Skill
 						key={i}
-						size={100}
 						skill_src={skill.skill_src}
 						skill_img_src={skill.skill_img_src}
 						skill_img_alt={skill.skill_img_alt}

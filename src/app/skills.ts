@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 
-import { SkillType } from '@/app/components/Skill';
+import { SkillProps } from '@/app/components/Skill';
 
-export const skills: SkillType[] = [
+export const skills: SkillProps[] = [
 	{
 		skill_src: 'https://www.typescriptlang.org/',
 		skill_img_src: 'https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/typescript-colored.svg',
@@ -57,5 +57,15 @@ export const skills: SkillType[] = [
 		skill_src: 'https://www.djangoproject.com/',
 		skill_img_src: 'https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/django-colored.svg',
 		skill_img_alt: 'Django'
+	},
+	{
+		skill_src: 'https://www.postgresql.org/',
+		skill_img_src: 'https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/postgresql-colored.svg',
+		skill_img_alt: 'PostgreSQL'
+	},
+	{
+		skill_src: 'https://git-scm.com/',
+		skill_img_src: 'https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/git-colored.svg',
+		skill_img_alt: 'Git'
 	}
 ];
