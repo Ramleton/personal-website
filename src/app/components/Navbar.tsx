@@ -8,6 +8,7 @@ const Navbar = () => {
 				grid grid-cols-3 grid-rows-1
 				h-[90px] border-b-2 mx-16 dark:border-slate-700
 			'>
+				{/** Left Div */}
 				<div className='
 					flex flex-row justify-start items-center
 				'>
@@ -19,11 +20,14 @@ const Navbar = () => {
 						}`}
 					/>
 				</div>
+				{/** Center Div */}
 				<div className='
-					flex flex-row justify-evenly items-center
+					flex flex-row justify-center
+					items-center mx-2
 				'>
 					<span className='text-4xl'>{process.env.DOMAIN}</span>
 				</div>
+				{/** Right Div */}
 				<div className='
 					flex flex-row justify-end items-center
 					gap-x-4

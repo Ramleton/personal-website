@@ -24,36 +24,40 @@ const HomePage = () => {
 				</div>
 				<div className='
 					flex flex-col basis-3/4 py-2
-					gap-y-2 justify-center
+					flex-basis h-[480px] justify-center
 				'>
-					<h1 className='text-3xl'><b>Hello!</b></h1>
-					<p>
-						My name is Ishaan Saini. I&#39;m an undergraduate
-						student at the University of Toronto majoring in
-						Computer Science and Mathematical Sciences. I&#39;ve
-						recently begun working on developing my portfolio.
-					</p>
-					<p>
-						I&#39;m passionate about algorithms analysis and design,
-						databases, and recently frontend development.
-					</p>
+					<div className='h-[100px] overflow-auto'>
+						<h1 className='text-3xl'><b>Hello!</b></h1>
+						<span>
+							My name is Ishaan Saini. I&#39;m an undergraduate
+							student at the University of Toronto majoring in
+							Computer Science and Mathematical Sciences. I&#39;ve
+							recently begun working on developing my portfolio.
+							<br />
+							I&#39;m passionate about algorithms analysis and
+							design, databases, and recently frontend
+							development.
+						</span>
+					</div>
 					<HorizontalDividerLine />
-					<h1 className='text-3xl'><b>Projects</b></h1>
-					<div className='
-						flex flex-row w-full h-full items-center
-						dark:bg-nav-bg-dark py-2 px-4 gap-x-2
-						overflow-x-auto overflow-y-hidden
-					'>
-						{
-							projects.map((project, i) => <ProjectCard
-								key={i}
-								size={200}
-								projectSrc={project.projectSrc}
-								projectImgSrc={project.projectImgSrc}
-								projectName={project.projectName}
-								projectDesc={project.projectDesc}
-							/>)
-						}
+					<div>
+						<h1 className='text-3xl'><b>Projects</b></h1>
+						<div className='
+							flex flex-row w-full min-h-fit items-center
+							dark:bg-nav-bg-dark py-2 px-4 gap-x-2
+							overflow-x-auto overflow-y-hidden
+						'>
+							{
+								projects.map((project, i) => <ProjectCard
+									key={i}
+									size={200}
+									projectSrc={project.projectSrc}
+									projectImgSrc={project.projectImgSrc}
+									projectName={project.projectName}
+									projectDesc={project.projectDesc}
+								/>)
+							}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -80,7 +84,7 @@ const HomePage = () => {
 };
 
 const HorizontalDividerLine = () => {
-	return <div className='border-b-2 mx-2 pt-2 dark:border-slate-700'/>;
+	return <div className='border-b-2 mx-2 my-2 dark:border-slate-700'/>;
 };
 
 const VerticalDividerLine = () => {

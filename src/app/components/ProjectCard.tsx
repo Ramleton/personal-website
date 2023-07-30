@@ -23,7 +23,7 @@ const ProjectCard = async ({
 		<a href={projectSrc} target='_blank'>	
 			<div className={`
 				border-solid border-2 rounded-lg
-				border-green-400 w-[200px] h-[200px]
+				border-green-400 w-[250px] h-[250px]
 				flex flex-col flex-basis
 			`}>
 				<div className='relative basis-2/3'>
