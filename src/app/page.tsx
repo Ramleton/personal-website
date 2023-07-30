@@ -26,6 +26,7 @@ const HomePage = () => {
 					flex flex-col basis-3/4 py-2
 					flex-basis h-[480px] justify-center
 				'>
+					{/** About Section */}
 					<div className='h-[100px] overflow-auto'>
 						<h1 className='text-3xl'><b>Hello!</b></h1>
 						<span>
@@ -40,6 +41,7 @@ const HomePage = () => {
 						</span>
 					</div>
 					<HorizontalDividerLine />
+					{/** Projects Section */}
 					<div>
 						<h1 className='text-3xl pb-2'><b>Projects</b></h1>
 						<div className='
@@ -61,7 +63,6 @@ const HomePage = () => {
 					</div>
 				</div>
 			</div>
-			{/** grid grid-rows-1 grid-flow-col  */}
 			{/** Skills Section */}
 			<div className='grid grid-flow-row grid-cols-1 gap-y-2 mx-4'>
 				<h1 className='text-3xl'><b>Skills</b></h1>
@@ -77,6 +78,20 @@ const HomePage = () => {
 						skill_img_src={skill.skill_img_src}
 						skill_img_alt={skill.skill_img_alt}
 					/>)}
+				</div>
+			</div>
+			<div className='
+				w-full h-[150px] flex flex-row
+				justify-center items-center
+			'>
+				<div className=' 
+					flex flex-col whitespace-nowrap
+					bg-green-400 rounded-xl w-fit px-2
+					text-center h-1/2 justify-center
+				'>
+					<h1 className=' text-5xl'>
+						<b>Thanks for Visiting!</b>
+					</h1>
 				</div>
 			</div>
 		</div>
