@@ -11,7 +11,7 @@ interface ProjectCardProps extends Project {
 	size: number
 }
 
-const ProjectCard = async ({
+const ProjectCard = ({
 	size,
 	projectSrc,
 	projectImgSrc,
@@ -23,11 +23,12 @@ const ProjectCard = async ({
 		<a href={projectSrc} target='_blank'>	
 			<div className={`
 				border-solid border-2 rounded-lg
-				border-green-400 w-[250px] h-[250px]
+				border-green-400 w-${size} h-${size}
 				flex flex-col flex-basis select-none
+				
 			`}>
-				<div className='relative basis-2/3'>
-					<Image className='rounded-t-lg'
+				<div className='basis-2/3 relative'>
+					<Image className='rounded-t-lg object-cover'
 						src={projectImgSrc}
 						alt={projectName}
 						fill={true}
@@ -35,7 +36,7 @@ const ProjectCard = async ({
 				</div>
 				<div className='
 					flex flex-col text-center h-1/3
-					basis-1/3 overflow-auto
+					basis-1/3 overflow-scroll px-2
 				'>
 					<h1 className='text-2xl'>{projectName}</h1>
 					<p>{projectDesc}</p>
@@ -44,29 +45,5 @@ const ProjectCard = async ({
 		</a>
 	);
 };
-
-/* <div className={`
-	grid grid-flow-row grid-cols-1
-	w-[${size}px] h-[${size}px] relative
-	border-solid border-2 rounded-lg
-	hover:cursor-pointer dark:bg-app-bg-dark
-	`}>
-	<div className={`
-		relative w-full
-	`}>
-		<Image className='rounded-t-lg'
-			src={projectImgSrc}
-			alt={`${projectName} image`}
-			fill={true}
-		/>
-	</div>
-	<div className='
-		grid grid-cols-1 grid-flow-row justify-center items-center
-		text-center
-	'>
-		<p className='text-xl'>{projectName}</p>
-		<p>{projectDesc}</p>
-	</div>
-</div> */
 
 export default ProjectCard;

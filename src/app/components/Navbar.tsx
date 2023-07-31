@@ -1,8 +1,53 @@
+import { headers } from 'next/headers';
+import { MdDensityMedium } from 'react-icons/md';
 import { SiLinkedin } from 'react-icons/si';
 import { VscGithub } from 'react-icons/vsc';
 
+import {
+	TextIconButton,
+	TextIconButtonProps
+} from './Button';
+import { Dropdown } from './Dropdown';
+
 const Navbar = () => {
-	return (
+
+	const userAgent = headers().get('user-agent');
+
+	const isMobile = userAgent!.match(
+		// eslint-disable-next-line max-len
+		/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+	);
+
+	const contactButton: TextIconButtonProps = {
+		text: 'Contact me',
+		icon: undefined,
+		href: `mailto:${
+			process.env.CONTACT_EMAIL
+			?? 'ishaansaini@outlook.com'
+		}`
+	};
+
+	const resumeButton: TextIconButtonProps = {
+		text: 'Resume/CV',
+		icon: undefined,
+		href: process.env.RESUME_URL || ''
+	};
+
+	const githubButton: TextIconButtonProps = {
+		text: 'Github',
+		icon: <VscGithub size={40} />,
+		href: process.env.GITHUB_URL
+			?? 'https://github.com/Ramleton'
+	};
+
+	const linkedInButton: TextIconButtonProps = {
+		text: 'LinkedIn',
+		icon: <SiLinkedin size={40} />,
+		href: process.env.LINKEDIN_URL ?? ''
+	};
+
+	return !isMobile
+		? 
 		<div className='dark:bg-nav-bg-dark'>
 			<div className='
 				flex flex-row flex-basis
@@ -12,17 +57,8 @@ const Navbar = () => {
 					flex flex-row items-center
 					gap-x-4 basis-1/3 pr-4
 				'>
-					<TextButton
-						text='Contact me'
-						href={`mailto:${
-							process.env.CONTACT_EMAIL
-									?? 'ishaansaini@outlook.com'
-						}`}
-					/>
-					<TextButton
-						text='Resume/CV'
-						href={process.env.RESUME_URL || ''}
-					/>
+					<TextIconButton {...contactButton}/>
+					<TextIconButton {...resumeButton}/>
 				</div>
 				<div className='
 						flex flex-row items-center justify-center basis-1/3
@@ -37,78 +73,50 @@ const Navbar = () => {
 						flex flex-row items-center pl-4
 						gap-x-4 justify-end basis-1/3
 					'>
-					<IconButton
-						icon={<VscGithub size={40} />}
-						href={
-							process.env.GITHUB_URL
-									?? 'https://github.com/Ramleton'
-						}
-					/>
-					<IconButton
-						icon={<SiLinkedin size={40} />}
-						href={
-							process.env.LINKEDIN_URL
-									?? ''
-						}
-					/>
+					<TextIconButton {...githubButton}/>
+					<TextIconButton {...linkedInButton}/>
 				</div>
 			</div>
 		</div>
-	);
-};
-
-interface ButtonProps {
-	href: string;
-	target?: '_blank' | '_self' | '_parent' | '_top';
-}
-
-interface TextButtonProps extends ButtonProps {
-	text: string;
-}
-
-const TextButton = ({ text, href, target = '_blank' }: TextButtonProps) => {
-	return (
-		<a href={href} target={target}>
-			<div className='
-				flex flex-row justify-center items-center
-				drop-shadow-md hover:drop-shadow-lg
-				bg-slate-200 hover:bg-slate-300
-				dark:bg-nav-button-bg-dark
-				dark:hover:bg-nav-button-bg-hover-dark
-				rounded-lg px-3 py-3 w-fit h-fit
-				hover:cursor-pointer select-none
+		:
+		<div className='dark:bg-nav-bg-dark'>
+			<div
+				className='
+				flex flex-row w-auto mx-4
+				 dark:border-slate-700 border-b-2 flex-basis
 			'>
-				<span className='
-					text-2xl dark:text-slate-200
-					whitespace-nowrap
+				<div className='
+						flex flex-row items-center
+						justify-start basis-2/3 my-4 mx-2
+					'>
+					<span className='
+						text-2xl select-none
+					'>
+						{process.env.DOMAIN}
+					</span>
+				</div>
+				<div className='
+					flex flex-row items-center basis-1/3
+					justify-end my-2 mx-2 relative
 				'>
-					{text}
-				</span>
+					<Dropdown
+						name=''
+						icon={<MdDensityMedium
+							size={35}
+							color='white'
+						/>}
+						childButtons={[
+							contactButton,
+							resumeButton,
+							githubButton,
+							linkedInButton
+						]}
+						color='white'
+					/>
+				</div>
 			</div>
-		</a>
-	);
+		</div>;
 };
 
-interface IconButtonProps extends ButtonProps {
-	icon: React.ReactNode;
-}
-
-const IconButton = ({ icon, href, target = '_blank' }: IconButtonProps) => {
-	return (
-		<a href={href} target={target}>
-			<div className='
-				flex flex-row justify-center items-center
-				drop-shadow-md hover:drop-shadow-lg
-				bg-slate-200 hover:bg-slate-300
-				dark:bg-nav-button-bg-dark
-				dark:hover:bg-nav-button-bg-hover-dark
-				rounded-lg px-3 py-3 w-fit h-fit
-				hover:cursor-pointer
-			'>
-				{icon}
-			</div>
-		</a>
-	);
-};
 
 export default Navbar;
