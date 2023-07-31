@@ -1,4 +1,4 @@
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 export type Project = {
 	projectSrc: string
@@ -28,15 +28,14 @@ const ProjectCard = ({
 				
 			`}>
 				<div className='basis-2/3 relative'>
-					<Image className='rounded-t-lg object-cover'
+					<img className='w-[100%] h-[100%] object-fill rounded-t-lg'
 						src={projectImgSrc}
 						alt={projectName}
-						fill={true}
 					/>
 				</div>
 				<div className='
 					flex flex-col text-center h-1/3
-					basis-1/3 overflow-scroll px-2
+					basis-1/3 overflow-scroll px-2 pt-1
 				'>
 					<h1 className='text-2xl'>{projectName}</h1>
 					<p>{projectDesc}</p>
