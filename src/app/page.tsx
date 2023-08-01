@@ -49,8 +49,8 @@ const HomePage = () => {
 							design, databases, and recently frontend
 							development.
 						</span>
+						<HorizontalDividerLine />
 					</div>
-					<HorizontalDividerLine />
 					{/** Projects Section */}
 					<div className='basis-2/3'>
 						<h1 className='text-3xl pb-2'><b>Projects</b></h1>
@@ -62,7 +62,7 @@ const HomePage = () => {
 							{
 								projects.map((project, i) => <ProjectCard
 									key={i}
-									size={60}
+									size={14}
 									{...project}
 								/>)
 							}
@@ -147,7 +147,7 @@ const HomePage = () => {
 					{
 						projects.map((project, i) => <ProjectCard
 							key={i}
-							size={40}
+							size={10}
 							{...project}
 						/>)
 					}
