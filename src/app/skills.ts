@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 
-import { SkillProps } from '@/app/components/Skill';
+import { SkillType } from '@/app/components/Skill';
 
-export const skills: SkillProps[] = [
+export const skills: SkillType[] = [
 	{
 		skill_src: 'https://www.typescriptlang.org/',
 		skill_img_src: 'https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/typescript-colored.svg',
