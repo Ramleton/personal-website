@@ -16,13 +16,13 @@ const HomePage = () => {
 	);
 
 	return !isMobile ? 
-		<div className='flex flex-col w-screen h-auto'>
+		<div className='flex flex-col w-fill h-fill'>
 			<div className='
-				grid grid-flow-col grid-rows-1 py-[14px] gap-x-8
-				w-auto h-[500px] mx-4
+				grid grid-flow-col grid-rows-1 py-4 gap-x-8
+				w-auto mx-4
 			'>
 				{/** Profile Image Section */}
-				<div className='relative w-[400px] h-auto'>
+				<div className='relative w-[25rem] h-[30rem]'>
 					<Image
 						className='
 							border-double border-8 border-green-400
@@ -75,12 +75,13 @@ const HomePage = () => {
 				<h1 className='text-3xl'><b>Skills</b></h1>
 				<div className='
 					flex flex-row gap-x-2
-					items-center py-2 px-2
-					dark:bg-nav-bg-dark w-auto h-[120px]
+					items-center py-4 px-4
+					dark:bg-nav-bg-dark w-auto h-fit
 					overflow-x-auto overflow-y-hidden
 				'>
 					{skills.map((skill, i) => <Skill
 						key={i}
+						size={8}
 						skill_src={skill.skill_src}
 						skill_img_src={skill.skill_img_src}
 						skill_img_alt={skill.skill_img_alt}
@@ -88,7 +89,7 @@ const HomePage = () => {
 				</div>
 			</div>
 			<div className='
-				w-full h-[150px] flex flex-row
+				w-full h-40 flex flex-row
 				justify-center items-center
 			'>
 				<div className=' 
@@ -160,10 +161,11 @@ const HomePage = () => {
 				<div className='
 					flex flex-row gap-x-2
 					items-center py-2 px-2
-					dark:bg-nav-bg-dark w-auto h-[120px]
+					dark:bg-nav-bg-dark w-auto h-fit
 					overflow-x-scroll overflow-y-hidden
 				'>
 					{skills.map((skill, i) => <Skill
+						size={6}
 						key={i}
 						skill_src={skill.skill_src}
 						skill_img_src={skill.skill_img_src}

@@ -50,8 +50,8 @@ const Navbar = () => {
 		? 
 		<div className='dark:bg-nav-bg-dark'>
 			<div className='
-				flex flex-row flex-basis
-				h-[90px] border-b-2 mx-16 dark:border-slate-700
+				flex flex-row flex-basis h-24
+				border-b-2 mx-16 dark:border-slate-700
 			'>
 				<div className='
 					flex flex-row items-center

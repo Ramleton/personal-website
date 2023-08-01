@@ -14,7 +14,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 			</head>
 			<body>
 				<div className={`
-					grid-cols-1 auto-rows-max h-screen w-screen
+					grid-cols-1 auto-rows-max h-fit w-screen
 					bg-white dark:bg-app-bg-dark gap-y-2
 				`}>
 					<header>

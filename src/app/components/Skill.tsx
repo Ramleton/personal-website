@@ -1,12 +1,17 @@
 import Image from 'next/image';
 
-export interface SkillProps {
+export type SkillType = {
 	skill_src: string
 	skill_img_src: string
 	skill_img_alt: string
 }
 
+export interface SkillProps extends SkillType {
+	size: number
+}
+
 const Skill = ({
+	size,
 	skill_src,
 	skill_img_src,
 	skill_img_alt
@@ -14,17 +19,19 @@ const Skill = ({
 	return (
 		<a
 			className='
-				w-[90px] h-[90px] mx-auto
-				select-none
+				mx-auto select-none
 			'
 			href={skill_src}
 			target='_blank'
 			rel='noreferrer'
 		>
-			<div className='
-				w-[90px] h-[90px]
-				hover:cursor-pointer relative
-			'>
+			<div
+				className='hover:cursor-pointer relative'
+				style={{
+					width: `${size}rem`,
+					height: `${size}rem`
+				}}
+			>
 				<Image className='rounded-lg'
 					src={skill_img_src}
 					alt={skill_img_alt}
