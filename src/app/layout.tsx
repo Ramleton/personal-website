@@ -1,5 +1,7 @@
 import './globals.css';
 
+import { Analytics } from '@vercel/analytics/react';
+
 import Navbar from './components/Navbar';
 
 interface AppLayoutProps {
@@ -21,6 +23,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 						<Navbar />
 					</header>
 					{children}
+					<Analytics />
 					<footer />
 				</div>
 			</body>
