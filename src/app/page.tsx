@@ -22,7 +22,7 @@ const HomePage = () => {
 				w-auto mx-4
 			'>
 				{/** Profile Image Section */}
-				<div className='relative w-[25rem] h-[30rem]'>
+				<div className='relative w-[25rem] h-[30rem] select-none'>
 					<Image
 						className='
 							border-double border-8 border-green-400
@@ -95,7 +95,7 @@ const HomePage = () => {
 				<div className=' 
 					flex flex-col whitespace-nowrap
 					bg-green-400 rounded-xl w-fit px-2
-					text-center h-1/2 justify-center
+					text-center h-1/2 justify-center select-none
 				'>
 					<h1 className=' text-5xl'>
 						<b>Thanks for Visiting!</b>

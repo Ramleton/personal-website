@@ -71,7 +71,7 @@ export const TextIconButton = (
 				dark:bg-nav-button-bg-dark
 				dark:hover:bg-nav-button-bg-hover-dark
 				rounded-lg px-3 py-3
-				hover:cursor-pointer gap-x-2
+				hover:cursor-pointer gap-x-2 select-none
 			'>
 				<span className='
 					text-2xl dark:text-slate-200
