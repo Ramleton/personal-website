@@ -27,7 +27,7 @@ const HomePage = () => {
 						className='
 							border-double border-8 border-green-400
 						'
-						src={process.env.PFP_IMG_URL || ''}
+						src={'/images/pfp_img.jpg'}
 						alt='Profile Image'
 						fill={true}
 					/>
@@ -86,20 +86,6 @@ const HomePage = () => {
 						skill_img_src={skill.skill_img_src}
 						skill_img_alt={skill.skill_img_alt}
 					/>)}
-				</div>
-			</div>
-			<div className='
-				w-full h-40 flex flex-row
-				justify-center items-center
-			'>
-				<div className=' 
-					flex flex-col whitespace-nowrap
-					bg-green-400 rounded-xl w-fit px-2
-					text-center h-1/2 justify-center select-none
-				'>
-					<h1 className=' text-5xl'>
-						<b>Thanks for Visiting!</b>
-					</h1>
 				</div>
 			</div>
 		</div>
