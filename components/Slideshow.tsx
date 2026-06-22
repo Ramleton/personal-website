@@ -1,22 +1,24 @@
 'use client';
 
-import { getPortfolioImages } from '@/services/portfolioImages';
-import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export default function Slideshow() {
-  // 🔗 Fetch the pre-fetched images cleanly from the TanStack cache boundary
-  const {
-    data: images = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ['portfolio-images'],
-    queryFn: getPortfolioImages,
-    staleTime: 1000 * 60 * 5,
-  });
+const images = [
+  {
+    src: '/portfolio-images/photo_london.jpg',
+    alt: 'Ishaan at Buckingham Palace, London',
+  },
+  {
+    src: '/portfolio-images/photo_dnd_1.jpg',
+    alt: 'Ishaan at a tabletop RPG session',
+  },
+  {
+    src: '/portfolio-images/photo_dnd_2.jpg',
+    alt: 'Ishaan at a tabletop RPG session',
+  },
+];
 
+export default function Slideshow() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -30,7 +32,7 @@ export default function Slideshow() {
     timerRef.current = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
-  }, [images.length]);
+  }, []);
 
   useEffect(() => {
     if (images.length > 0) {
@@ -42,7 +44,7 @@ export default function Slideshow() {
         clearInterval(timerRef.current);
       }
     };
-  }, [images, startTimer]);
+  }, [startTimer]);
 
   // Handle manual dot navigation button click clicks
   const handleNavClick = (index: number) => {
@@ -50,17 +52,7 @@ export default function Slideshow() {
     startTimer();
   };
 
-  if (isLoading) {
-    return (
-      <div className='flex aspect-[2/3] w-full animate-pulse items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900'>
-        <span className='font-mono text-xs text-zinc-400'>
-          Syncing asset stream...
-        </span>
-      </div>
-    );
-  }
-
-  if (error || !images || images.length === 0) {
+  if (!images || images.length === 0) {
     return (
       <div className='flex aspect-[2/3] w-full flex-col items-center justify-center space-y-2 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-center dark:border-zinc-800/80 dark:bg-zinc-950/40'>
         <svg
@@ -90,14 +82,14 @@ export default function Slideshow() {
       {images.map((image, index) => (
         /* 💡 NEW: Absolute positioning container wrapper that monitors the currentIndex slider state */
         <div
-          key={image.id}
+          key={image.src}
           className={`absolute inset-0 h-full w-full transition-opacity duration-1000 ease-in-out ${
             index === currentIndex ? 'z-10 opacity-100' : 'z-0 opacity-0'
           }`}
         >
           {/* 🌫️ Layer 1: Blurred background image to elegantly fill any letterboxing space */}
           <Image
-            src={image.embedUrl}
+            src={image.src}
             alt=''
             fill
             sizes='(max-width: 768px) 100vw, (max-width: 1024px) 40vw, 420px'
@@ -107,8 +99,8 @@ export default function Slideshow() {
 
           {/* 🖼️ Layer 2: The actual crisp photo, constrained completely without any cropping */}
           <Image
-            src={image.embedUrl}
-            alt={image.name}
+            src={image.src}
+            alt={image.alt}
             fill
             sizes='(max-width: 768px) 100vw, (max-width: 1024px) 40vw, 420px'
             priority={index === 0}

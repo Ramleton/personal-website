@@ -1,14 +1,12 @@
-"use client";
-
-import { marked } from "marked";
-import Slideshow from "./Slideshow";
+import { marked } from 'marked';
+import Slideshow from './Slideshow';
 
 interface AboutProps {
   initialContent: string;
 }
 
 export default function About({ initialContent }: AboutProps) {
-  const htmlContent = marked.parse(initialContent || "Biography content loading...") as string;
+  const htmlContent = marked.parse(initialContent || '...');
   
   return (
     <section
@@ -24,7 +22,7 @@ export default function About({ initialContent }: AboutProps) {
           </div>
           <div className="pt-3 px-1 text-center md:text-left">
             <span className="font-mono text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2.5 py-1 rounded-md">
-              📍 Based in Ontario, Canada
+              Based in Ontario, Canada
             </span>
           </div>
         </div>

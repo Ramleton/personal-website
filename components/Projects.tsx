@@ -23,12 +23,14 @@ export default function Projects() {
   }
 
   return (
-    <section id='projects' className='scroll-mt-24 space-y-8'>
+    <section
+      id='projects'
+      className='scroll-mt-24 space-y-8 text-zinc-900 dark:text-zinc-50'
+    >
       <h2 className='text-2xl font-semibold tracking-tight'>
         Featured Engineering Work
       </h2>
 
-      {/* Renders the decoupled clean layout grid */}
       <div className='grid gap-6 sm:grid-cols-2'>
         {featuredProjects?.map((project) => (
           <ProjectCard key={project.slug} project={project} />

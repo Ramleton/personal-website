@@ -3,7 +3,6 @@ import Hero from '@/components/Hero';
 import Projects from '@/components/Projects';
 import { getFeaturedProjects } from '@/services/github';
 import { getAboutContent } from '@/services/markdown';
-import { getPortfolioImages } from '@/services/portfolioImages';
 import { getResumeData } from '@/services/resume';
 import {
   dehydrate,
@@ -21,11 +20,6 @@ async function preFetchData(queryClient: QueryClient) {
       queryKey: ['resume-data'],
       queryFn: getResumeData,
     }),
-    queryClient.prefetchQuery({
-      queryKey: ['portfolio-images'],
-      queryFn: getPortfolioImages,
-      staleTime: 0,
-    }),
   ]);
 }
 
@@ -37,7 +31,7 @@ export default async function Home() {
   const markdownContent = getAboutContent();
 
   return (
-    <div className='flex min-h-screen flex-col bg-zinc-50 font-sans text-zinc-900 transition-colors duration-300 dark:bg-zinc-950 dark:text-zinc-50'>
+    <div className='min-h-screen bg-zinc-50 text-zinc-900 transition-colors duration-300 dark:bg-zinc-950 dark:text-zinc-50'>
       <main className='mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-6 py-24 md:py-32'>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Hero />
