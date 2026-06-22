@@ -16,10 +16,43 @@ interface GraphQLResponse {
               };
             }[];
           };
+					readme: {
+						text: string;
+					} | null;
         }[];
       };
     };
   };
+}
+
+// Utility helper to clean up raw Markdown text if we need to fall back to the README
+function extractDescriptionFromReadme(readmeText: string): string {
+  if (!readmeText) return "No description provided.";
+
+  // Split text by lines, remove empty lines, and filter out Markdown headers (starting with #)
+  const cleanParagraphs = readmeText
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0 && !line.startsWith("#") && !line.startsWith("!["));
+
+  if (cleanParagraphs.length === 0) return "No description provided.";
+
+  // Grab the very first real paragraph block
+  let firstParagraph = cleanParagraphs[0];
+
+  // Strip common markdown elements like links [text](url), bolding **, and italics *
+  firstParagraph = firstParagraph
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Cleans up links
+    .replace(/\*\*([^*]+)\*\*/g, "$1")         // Cleans up bold text
+    .replace(/\*([^*]+)\*/g, "$1");            // Cleans up italics
+
+  // Truncate cleanly at a reasonable character length for your portfolio cards
+  const maxLength = 160;
+  if (firstParagraph.length > maxLength) {
+    return firstParagraph.substring(0, maxLength).trim() + "...";
+  }
+
+  return firstParagraph;
 }
 
 export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
@@ -48,6 +81,12 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
                   }
                 }
               }
+              # 💡 ADD THIS RIGHT HERE TO ACQUIRE THE BLOB DATA
+              readme: object(expression: "HEAD:README.md") {
+                ... on Blob {
+                  text
+                }
+              }
             }
           }
         }
@@ -65,25 +104,28 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
       body: JSON.stringify({ query }),
     });
 
-    if (!res.ok) {
-      throw new Error(`GitHub GraphQL error: ${res.status} ${res.statusText}`);
-    }
+    if (!res.ok) throw new Error(`GraphQL API request failed: ${res.statusText}`);
 
     const responseData: GraphQLResponse = await res.json();
     const pinnedNodes = responseData.data?.user?.pinnedItems?.nodes || [];
 
-    // Map and transform the complex GraphQL fields back into our clean UI structure
-    return pinnedNodes.map((repo) => ({
-      title: repo.name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-      description: repo.description || "No description provided.",
-      url: repo.url,
-      slug: repo.name,
-      stars: repo.stargazerCount,
-      // Flatten the deeply nested topic structures into a simple string array
-      tags: repo.repositoryTopics.nodes.map((node) => node.topic.name),
-    }));
+    return pinnedNodes.map((repo) => {
+      // Prioritize the explicit repo description. If null, invoke the README extraction algorithm.
+      const localizedDescription =
+        repo.description || 
+        (repo.readme ? extractDescriptionFromReadme(repo.readme.text) : "No description provided.");
+
+      return {
+        title: repo.name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+        description: localizedDescription,
+        url: repo.url,
+        slug: repo.name,
+        stars: repo.stargazerCount,
+        tags: repo.repositoryTopics?.nodes?.map((node) => node.topic.name) || [],
+      };
+    });
   } catch (error) {
-    console.error("Error fetching pinned repositories from GitHub GraphQL:", error);
+    console.error("Error mapping GitHub data pipelines:", error);
     return [];
   }
 }
