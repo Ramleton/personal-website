@@ -1,35 +1,5 @@
+import { GithubResponse } from "@/types/github";
 import { FeaturedProject } from "@/types/projects";
-
-interface GraphQLResponse {
-  data: {
-    user: {
-      pinnedItems: {
-        nodes: {
-          name: string;
-          description: string | null;
-          url: string;
-          stargazerCount: number;
-          repositoryTopics: {
-            nodes: {
-              topic: {
-                name: string;
-              };
-            }[];
-          };
-          // 💡 New interface typing for the languages payload
-          languages: {
-            nodes: {
-              name: string;
-            }[];
-          };
-          readme: {
-            text: string;
-          } | null;
-        }[];
-      };
-    };
-  };
-}
 
 // Utility helper to clean up raw Markdown text if we need to fall back to the README
 function extractDescriptionFromReadme(readmeText: string): string {
@@ -79,6 +49,7 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
               name
               description
               url
+							homepageUrl
               stargazerCount
               repositoryTopics(first: 10) {
                 nodes {
@@ -117,7 +88,7 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
 
     if (!res.ok) throw new Error(`GraphQL API request failed: ${res.statusText}`);
 
-    const responseData: GraphQLResponse = await res.json();
+    const responseData: GithubResponse = await res.json();
     const pinnedNodes = responseData.data?.user?.pinnedItems?.nodes || [];
 
     return pinnedNodes.map((repo) => {
@@ -141,6 +112,7 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
         title: repo.name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
         description: localizedDescription,
         url: repo.url,
+				liveUrl: repo.homepageUrl || null,
         slug: repo.name,
         stars: repo.stargazerCount,
         tags: combinedTags,

@@ -4,5 +4,6 @@ export interface FeaturedProject {
   tags: string[];
   slug: string;
   url: string;
+  liveUrl: string | null;
   stars: number;
 }
