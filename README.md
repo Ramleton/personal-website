@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Modern Engineering Portfolio
 
-## Getting Started
+A high-performance, dynamic portfolio website engineered with **Next.js App Router**, **TypeScript**, and **Tailwind CSS**. This site features an automated server-side data pipeline powered by **TanStack Query** to dynamically sync GitHub repository metrics and pull up-to-date resume assets directly from external endpoints.
 
-First, run the development server:
+## 🚀 Key Engineering Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* **Automated Data Layer:** Uses the **GitHub GraphQL API (v4)** to fetch pinned repositories, extract real programming language metrics directly from repository byte size counts, and fall back to processing raw markdown text strings from `README.md` files if an explicit project description is missing.
+* **Server-Side Hydration:** Leverages **TanStack Query (v5)** alongside Next.js Server Components to pre-fetch and dehydrate complex data structures during server compilation, eliminating layout shifts and delivering instant client-side page rendering.
+* **Dynamic Document Pipeline:** Integrates a responsive client button mapping to an auto-synchronized Google Docs preview stream, ensuring recruiters always view the latest version of my resume in a clean, frictionless browser PDF container without forcing a download.
+* **Modern Developer Workspace:** Enforces code quality and semantic consistency across all directory modules using strict **TypeScript** configurations and decoupled service layouts.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack & Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **Framework:** Next.js (App Router)
+* **Language:** TypeScript
+* **State & Data Fetching:** TanStack Query (React Query)
+* **Styling:** Tailwind CSS
+* **API Handshakes:** GitHub GraphQL API
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+personal-website/
+├── app/                  # Application Router configurations & layouts
+│   ├── layout.tsx        # Core page tree shell & provider wrappers
+│   ├── page.tsx          # Asynchronous Server component managing pre-fetch pipelines
+│   └── providers.tsx     # TanStack Query client context boundaries
+├── components/           # Modular Client/Server UI components
+│   ├── Hero.tsx          # Dynamic splash section with resume streaming
+│   └── Projects.tsx      # Case-sensitive, cached project grid layouts
+├── services/             # Decoupled backend fetching pipelines
+│   ├── github.ts         # GraphQL queries, schema parsing & string transformers
+│   └── resume.ts         # Cloud document path synchronization
+└── tsconfig.json         # Strict compiler mapping & absolute path aliasing (@/*)

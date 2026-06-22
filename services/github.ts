@@ -16,9 +16,15 @@ interface GraphQLResponse {
               };
             }[];
           };
-					readme: {
-						text: string;
-					} | null;
+          // 💡 New interface typing for the languages payload
+          languages: {
+            nodes: {
+              name: string;
+            }[];
+          };
+          readme: {
+            text: string;
+          } | null;
         }[];
       };
     };
@@ -81,7 +87,12 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
                   }
                 }
               }
-              # 💡 ADD THIS RIGHT HERE TO ACQUIRE THE BLOB DATA
+              # 💡 FETCH THE REAL LANGUAGES ENCODED IN THE DISK DIRECTORY
+              languages(first: 4, orderBy: {field: SIZE, direction: DESC}) {
+                nodes {
+                  name
+                }
+              }
               readme: object(expression: "HEAD:README.md") {
                 ... on Blob {
                   text
@@ -110,10 +121,21 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
     const pinnedNodes = responseData.data?.user?.pinnedItems?.nodes || [];
 
     return pinnedNodes.map((repo) => {
+			const nativeLanguages = repo.languages?.nodes?.map((l) => l.name) || [];
       // Prioritize the explicit repo description. If null, invoke the README extraction algorithm.
       const localizedDescription =
         repo.description || 
         (repo.readme ? extractDescriptionFromReadme(repo.readme.text) : "No description provided.");
+			
+			const customTopics = repo.repositoryTopics?.nodes
+        ?.map((node) => node.topic.name)
+        ?.filter((topicName) => !nativeLanguages.some((lang) => lang.toLowerCase() === topicName.toLowerCase())) || [];
+		
+			const formattedTopics = customTopics.map((topic) => 
+        topic.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+      );
+
+			const combinedTags = [...nativeLanguages, ...formattedTopics];
 
       return {
         title: repo.name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
@@ -121,7 +143,7 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
         url: repo.url,
         slug: repo.name,
         stars: repo.stargazerCount,
-        tags: repo.repositoryTopics?.nodes?.map((node) => node.topic.name) || [],
+        tags: combinedTags,
       };
     });
   } catch (error) {
