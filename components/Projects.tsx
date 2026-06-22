@@ -23,9 +23,7 @@ export default function Projects() {
 
 	return (
     <section id="projects" className="space-y-8 scroll-mt-24">
-      <div className="border-b border-zinc-200 dark:border-zinc-800 pb-4">
-        <h2 className="text-2xl font-semibold tracking-tight">Featured Engineering Work</h2>
-      </div>
+      <h2 className="text-2xl font-semibold tracking-tight">Featured Engineering Work</h2>
 
       {/* Renders the decoupled clean layout grid */}
       <div className="grid gap-6 sm:grid-cols-2">

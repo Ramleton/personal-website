@@ -2,7 +2,7 @@ import ResumeButton from "./ResumeButton";
 
 export default function Hero() {
 	return (
-  <header className="space-y-6 mb-16">
+  <header className="space-y-6 mb-8">
     <div className="space-y-2">
       <p className="text-sm font-mono tracking-wider text-blue-600 dark:text-blue-400 uppercase">
         Recent Graduate, Software Engineer

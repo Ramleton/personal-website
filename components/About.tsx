@@ -4,7 +4,10 @@ import Slideshow from "./Slideshow";
 
 export default function About() {
   return (
-    <section id="about" className="mb-8 space-y-8 scroll-mt-24 pt-12 border-t border-zinc-200 dark:border-zinc-800">
+    <section
+			id="about"
+			className="border-b border-zinc-200 dark:border-zinc-800 pb-8 mb-8 space-y-8 scroll-mt-24 pt-12 border-t"
+		>
       <div className="grid gap-8 md:grid-cols-3 md:items-start">
         
         {/* 📷 Left Column: Your automated Google Drive slideshow component */}
