@@ -1,14 +1,14 @@
 /** @type {import("prettier").Config} */
 const config = {
-  plugins: ["prettier-plugin-tailwindcss"],
-  tailwindConfig: "./tailwind.config.ts",
+  plugins: ['prettier-plugin-tailwindcss'],
+  tailwindConfig: './tailwind.config.ts',
 
   // Basic formatting
   semi: true,
   singleQuote: true,
   tabWidth: 2,
   useTabs: false,
-  trailingComma: "all",
+  trailingComma: 'all',
   printWidth: 80,
 
   // JSX formatting
@@ -16,7 +16,7 @@ const config = {
   bracketSpacing: true,
 
   // Tailwind specific
-  tailwindFunctions: ["cn", "cva"],
+  tailwindFunctions: ['cn', 'cva'],
 };
 
 export default config;

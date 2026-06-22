@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { getFeaturedProjects } from "@/services/github";
-import { useQuery } from "@tanstack/react-query";
-import ProjectCard from "./ProjectCard";
+import { getFeaturedProjects } from '@/services/github';
+import { useQuery } from '@tanstack/react-query';
+import ProjectCard from './ProjectCard';
 
 export default function Projects() {
   const { data: featuredProjects, error } = useQuery({
-    queryKey: ["featured-projects"],
+    queryKey: ['featured-projects'],
     queryFn: getFeaturedProjects,
   });
 
   // Graceful fallback UI in case the GitHub network handshake completely fails
   if (error) {
     return (
-      <div className="rounded-xl border border-red-200 bg-red-50/50 p-4 dark:border-red-900/30 dark:bg-red-950/10">
-        <p className="text-sm text-red-600 dark:text-red-400">
+      <div className='rounded-xl border border-red-200 bg-red-50/50 p-4 dark:border-red-900/30 dark:bg-red-950/10'>
+        <p className='text-sm text-red-600 dark:text-red-400'>
           Failed to synchronize project metrics from GitHub. Please try
           reloading.
         </p>
@@ -23,13 +23,13 @@ export default function Projects() {
   }
 
   return (
-    <section id="projects" className="scroll-mt-24 space-y-8">
-      <h2 className="text-2xl font-semibold tracking-tight">
+    <section id='projects' className='scroll-mt-24 space-y-8'>
+      <h2 className='text-2xl font-semibold tracking-tight'>
         Featured Engineering Work
       </h2>
 
       {/* Renders the decoupled clean layout grid */}
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className='grid gap-6 sm:grid-cols-2'>
         {featuredProjects?.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
