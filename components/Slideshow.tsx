@@ -68,6 +68,7 @@ export default function Slideshow() {
 						src={image.embedUrl}
 						alt=""
 						fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 40vw, 420px"
 						priority={index === 0}
 						className="object-cover blur-xl opacity-30 select-none pointer-events-none"
 					/>
@@ -77,7 +78,7 @@ export default function Slideshow() {
 						src={image.embedUrl}
 						alt={image.name}
 						fill
-						sizes="(max-width: 768px) 280px, 360px"
+						sizes="(max-width: 768px) 100vw, (max-width: 1024px) 40vw, 420px"
 						priority={index === 0}
 						className="object-contain transition-all duration-500"
 					/>

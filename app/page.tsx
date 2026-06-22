@@ -5,6 +5,8 @@ import { getFeaturedProjects } from "@/services/github";
 import { getPortfolioImages } from "@/services/portfolioImages";
 import { getResumeData } from "@/services/resume";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import fs from "fs";
+import path from "path";
 
 async function preFetchData(queryClient: QueryClient) {
   await Promise.all([
@@ -28,12 +30,20 @@ export default async function Home() {
   const queryClient = new QueryClient();
   await preFetchData(queryClient);
 
+  let markdownContent = "";
+  const filePath = path.join(process.cwd(), "content", "about.md");
+  try {
+    markdownContent = fs.readFileSync(filePath, "utf8");
+  } catch (error) {
+    console.error("Could not find or read about.md", error);
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 font-sans transition-colors duration-300">
       <main className="flex-1 flex flex-col justify-center max-w-4xl mx-auto px-6 py-24 md:py-32 w-full">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Hero />
-          <About />
+          <About initialContent={markdownContent} />
           <Projects />
         </HydrationBoundary>
       </main>
