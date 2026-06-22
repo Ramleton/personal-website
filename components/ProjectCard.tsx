@@ -1,12 +1,25 @@
 "use client";
 
 import { FeaturedProject } from "@/types/projects";
+import { useQuery } from "@tanstack/react-query";
 
 interface ProjectCardProps {
   project: FeaturedProject;
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["project-status", project.liveUrl],
+    queryFn: async () => {
+      if (!project.liveUrl) return { isLive: false };
+      const res = await fetch(`/api/check-status?url=${project.liveUrl}`);
+      return res.json() as Promise<{ isLive: boolean }>;
+    },
+    staleTime: 600000,
+  });
+
+  const isLive = data?.isLive ?? false;
+
   return (
     <div className="group flex flex-col justify-between p-6 rounded-xl border border-zinc-200 bg-white shadow-xs transition-all duration-300 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700">
       <div className="space-y-4">
@@ -66,28 +79,48 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Live Demo Link */}
         {project.liveUrl && (
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
-          >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-            </span>
-            Live Demo
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              strokeWidth={2} 
-              stroke="currentColor" 
-              className="w-3 h-3"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-            </svg>
-          </a>
+          <>
+            {isLoading ? (
+              /* ⏳ 1. SKELETON STATE: Displays while the API route checks the network domain header */
+              <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-mono select-none">
+                <div className="h-2 w-2 rounded-full bg-zinc-300 dark:bg-zinc-700 animate-pulse" />
+                Checking status...
+              </div>
+            ) : isLive ? (
+              /* 🟢 2. ACTIVE LIVE STATE: Renders your gorgeous green ping indicator link */
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
+              >
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                Live Demo
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  strokeWidth={2} 
+                  stroke="currentColor" 
+                  className="w-3 h-3"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+              </a>
+            ) : (
+              /* 🔴 3. PAUSED/OFFLINE STATE: Changes style to clean disabled monochrome */
+              <span 
+                className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-zinc-400 dark:text-zinc-600 select-none cursor-not-allowed"
+                title="Demo is currently offline or paused"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+                Demo Paused
+              </span>
+            )}
+          </>
         )}
       </div>
     </div>
