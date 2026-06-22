@@ -3,34 +3,42 @@
 import { getPortfolioImages } from "@/services/portfolioImages";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Slideshow() {
   // 🔗 Fetch the pre-fetched images cleanly from the TanStack cache boundary
-  const { data: images, error } = useQuery({
+  const { data: images = [], error } = useQuery({
     queryKey: ['portfolio-images'],
 		queryFn: getPortfolioImages
   });
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // ⏱️ Automatically cycle through images every 4 seconds
-  useEffect(() => {
-		if (!images || images.length <= 1) return;
-
-    const timer = setInterval(() => {
+  const startTimer = useCallback(() => {
+    if (timerRef.current)
+      clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 4000);
+    }, 5000);
+  }, [images.length]);
 
-    return () => clearInterval(timer); // Clean up the interval on component unmount
-  }, [images]);
+  useEffect(() => {
+    if (images.length > 0) {
+      startTimer();
+    }
+    // Clean up the timer when the component unmounts to prevent memory leaks
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [images, startTimer]);
 
   // Handle manual dot navigation button click clicks
-  const goToSlide = (index: number) => {
+  const handleNavClick = (index: number) => {
     setCurrentIndex(index);
+    startTimer();
   };
 
-  // ⏳ 1. Loading State Placeholder (Matches the exact dimensions of the image layout)
   if (!images && !error) {
     return (
       <div className="w-full aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-900 animate-pulse border border-zinc-200 dark:border-zinc-800 flex items-center justify-center">
@@ -39,7 +47,6 @@ export default function Slideshow() {
     );
   }
 
-  // ⚠️ 2. Graceful Error Fallback (If your API key or folder ID fails, it won't crash the UI)
   if (error || !images || images.length === 0) {
     return (
       <div className="w-full aspect-square rounded-2xl bg-zinc-50 border border-zinc-200 dark:bg-zinc-950/40 dark:border-zinc-800/80 flex flex-col items-center justify-center p-4 text-center space-y-2">
@@ -91,7 +98,7 @@ export default function Slideshow() {
           {images.map((_, index) => (
             <button
               key={index}
-              onClick={() => goToSlide(index)}
+              onClick={() => handleNavClick(index)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 index === currentIndex 
                   ? "bg-white w-3.5" 
