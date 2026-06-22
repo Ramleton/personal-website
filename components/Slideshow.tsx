@@ -1,15 +1,19 @@
-"use client";
+'use client';
 
-import { getPortfolioImages } from "@/services/portfolioImages";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { getPortfolioImages } from '@/services/portfolioImages';
+import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export default function Slideshow() {
   // 🔗 Fetch the pre-fetched images cleanly from the TanStack cache boundary
-  const { data: images = [], error, isLoading } = useQuery({
+  const {
+    data: images = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ['portfolio-images'],
-		queryFn: getPortfolioImages,
+    queryFn: getPortfolioImages,
     staleTime: 1000 * 60 * 5,
   });
 
@@ -17,10 +21,12 @@ export default function Slideshow() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const startTimer = useCallback(() => {
-    if (timerRef.current)
+    if (timerRef.current) {
       clearInterval(timerRef.current);
-    if (!images.length)
+    }
+    if (!images.length) {
       return;
+    }
     timerRef.current = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
@@ -32,8 +38,9 @@ export default function Slideshow() {
     }
     // Clean up the timer when the component unmounts to prevent memory leaks
     return () => {
-      if (timerRef.current)
+      if (timerRef.current) {
         clearInterval(timerRef.current);
+      }
     };
   }, [images, startTimer]);
 
@@ -45,68 +52,82 @@ export default function Slideshow() {
 
   if (isLoading) {
     return (
-      <div className="w-full aspect-[2/3] rounded-2xl bg-zinc-100 dark:bg-zinc-900 animate-pulse border border-zinc-200 dark:border-zinc-800 flex items-center justify-center">
-        <span className="text-xs text-zinc-400 font-mono">Syncing asset stream...</span>
+      <div className='flex aspect-[2/3] w-full animate-pulse items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900'>
+        <span className='font-mono text-xs text-zinc-400'>
+          Syncing asset stream...
+        </span>
       </div>
     );
   }
 
   if (error || !images || images.length === 0) {
     return (
-      <div className="w-full aspect-[2/3] rounded-2xl bg-zinc-50 border border-zinc-200 dark:bg-zinc-950/40 dark:border-zinc-800/80 flex flex-col items-center justify-center p-4 text-center space-y-2">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-zinc-400">
-          <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375 0 1 1-.75 0 .375 0 0 1 .75 0Z" />
+      <div className='flex aspect-[2/3] w-full flex-col items-center justify-center space-y-2 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-center dark:border-zinc-800/80 dark:bg-zinc-950/40'>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='currentColor'
+          className='h-6 w-6 text-zinc-400'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375 0 1 1-.75 0 .375 0 0 1 .75 0Z'
+          />
         </svg>
-        <span className="text-xs text-zinc-400 font-mono">Slideshow unavailable</span>
+        <span className='font-mono text-xs text-zinc-400'>
+          Slideshow unavailable
+        </span>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full aspect-[2/3] rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 shadow-xs group">
-      
+    <div className='shadow-xs group relative aspect-[2/3] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900'>
       {/* 🖼️ Stacked Image Elements Wrapper */}
       {images.map((image, index) => (
         /* 💡 NEW: Absolute positioning container wrapper that monitors the currentIndex slider state */
         <div
           key={image.id}
-          className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-            index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+          className={`absolute inset-0 h-full w-full transition-opacity duration-1000 ease-in-out ${
+            index === currentIndex ? 'z-10 opacity-100' : 'z-0 opacity-0'
           }`}
         >
           {/* 🌫️ Layer 1: Blurred background image to elegantly fill any letterboxing space */}
-					<Image
-						src={image.embedUrl}
-						alt=""
-						fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 40vw, 420px"
-						priority={index === 0}
-						className="object-cover blur-xl opacity-30 select-none pointer-events-none"
-					/>
+          <Image
+            src={image.embedUrl}
+            alt=''
+            fill
+            sizes='(max-width: 768px) 100vw, (max-width: 1024px) 40vw, 420px'
+            priority={index === 0}
+            className='pointer-events-none select-none object-cover opacity-30 blur-xl'
+          />
 
-					{/* 🖼️ Layer 2: The actual crisp photo, constrained completely without any cropping */}
-					<Image
-						src={image.embedUrl}
-						alt={image.name}
-						fill
-						sizes="(max-width: 768px) 100vw, (max-width: 1024px) 40vw, 420px"
-						priority={index === 0}
-						className="object-contain transition-all duration-500"
-					/>
+          {/* 🖼️ Layer 2: The actual crisp photo, constrained completely without any cropping */}
+          <Image
+            src={image.embedUrl}
+            alt={image.name}
+            fill
+            sizes='(max-width: 768px) 100vw, (max-width: 1024px) 40vw, 420px'
+            priority={index === 0}
+            className='object-contain transition-all duration-500'
+          />
         </div>
       ))}
 
       {/* 🎛️ Navigation Indicators Overlay (Only renders if there's more than one photo) */}
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/10 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className='absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-1.5 rounded-full border border-white/10 bg-black/10 px-2.5 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100'>
           {images.map((_, index) => (
             <button
               key={index}
               onClick={() => handleNavClick(index)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                index === currentIndex 
-                  ? "bg-white w-3.5" 
-                  : "bg-white/40 hover:bg-white/70 w-1.5"
+                index === currentIndex
+                  ? 'w-3.5 bg-white'
+                  : 'w-1.5 bg-white/40 hover:bg-white/70'
               }`}
               aria-label={`Show photo indicator ${index + 1}`}
             />

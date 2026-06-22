@@ -1,11 +1,11 @@
-"use client"; // Marks this as a Client Component
+'use client'; // Marks this as a Client Component
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useState } from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useState } from 'react';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  // Creating the QueryClient inside useState ensures data isn't shared 
+  // Creating the QueryClient inside useState ensures data isn't shared
   // between different users on the server side.
   const [queryClient] = useState(
     () =>
@@ -15,7 +15,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             staleTime: 1000 * 60 * 60 * 24, // 24 hours: treat data as fresh for a day
           },
         },
-      })
+      }),
   );
 
   return (

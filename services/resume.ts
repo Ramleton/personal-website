@@ -1,4 +1,4 @@
-import { ResumeData } from "@/types/resume";
+import { ResumeData } from '@/types/resume';
 
 const FALLBACK_DOCS_ID = '1dXOaaXYvfz_gWoT3jnBmlOX3M5crS7fNaYQXgYBIoZI';
 
@@ -10,6 +10,9 @@ export async function getResumeData(): Promise<ResumeData> {
   // We skip the fetch request entirely. Generating the string instantly resolves without network lag!
   return {
     pdfUrl: previewUrl,
-    lastUpdated: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    lastUpdated: new Date().toLocaleDateString('en-US', {
+      month: 'long',
+      year: 'numeric',
+    }),
   };
 }

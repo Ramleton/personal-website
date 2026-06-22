@@ -1,4 +1,4 @@
-import { PortfolioImage } from "@/types/portfolioImages";
+import { PortfolioImage } from '@/types/portfolioImages';
 
 export async function getPortfolioImages(): Promise<PortfolioImage[]> {
   // 💡 Updated to match your exact environment variable names
@@ -6,7 +6,7 @@ export async function getPortfolioImages(): Promise<PortfolioImage[]> {
   const folderId = process.env.PORTFOLIO_IMAGES_FOLDER_ID;
 
   if (!apiKey || !folderId) {
-    console.error("Missing Google Drive environment configurations.");
+    console.error('Missing Google Drive environment configurations.');
     return [];
   }
 
@@ -16,7 +16,7 @@ export async function getPortfolioImages(): Promise<PortfolioImage[]> {
   // 💡 Safely builds and URL-encodes the entire query parameters block
   const params = new URLSearchParams({
     q: driveQuery,
-    fields: "files(id,name)",
+    fields: 'files(id,name)',
     key: apiKey,
   });
 
@@ -29,7 +29,9 @@ export async function getPortfolioImages(): Promise<PortfolioImage[]> {
 
     if (!res.ok) {
       const errorText = await res.text();
-      throw new Error(`Drive API responded with status: ${res.status} - ${errorText}`);
+      throw new Error(
+        `Drive API responded with status: ${res.status} - ${errorText}`,
+      );
     }
 
     const data = await res.json();
@@ -42,7 +44,7 @@ export async function getPortfolioImages(): Promise<PortfolioImage[]> {
       embedUrl: `https://drive.google.com/uc?export=view&id=${file.id}`,
     }));
   } catch (error) {
-    console.error("Error fetching images from Google Drive:", error);
+    console.error('Error fetching images from Google Drive:', error);
     return [];
   }
 }

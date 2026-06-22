@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.0",
+    "@vercel/analytics": "^2.0.1",
     "marked": "^18.0.5",
     "next": "16.2.9",
     "react": "19.2.4",
@@ -23,6 +24,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
