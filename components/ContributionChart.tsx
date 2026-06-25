@@ -1,16 +1,38 @@
 'use client';
 
-import { getContributions, selectBestWindow } from '@/services/githubContributions';
-
 import { ContributionDay } from '@/types/githubContributions';
+import { getContributionsAction } from '@/actions/githubContributions';
 import { useQuery } from '@tanstack/react-query';
 
 function getColor(count: number): string {
   if (count === 0) {return 'bg-zinc-100 dark:bg-zinc-800';}
   if (count <= 2) {return 'bg-emerald-200 dark:bg-emerald-900';}
-  if (count <= 5) {return 'bg-emerald-300 dark:bg-emerald-700';}
-  if (count <= 9) {return 'bg-emerald-400 dark:bg-emerald-500';}
+  if (count <= 5) {return 'bg-emerald-300 dark:bg-emerald-800';}
+  if (count <= 9) {return 'bg-emerald-300 dark:bg-emerald-700';}
+  if (count <= 13) {return 'bg-emerald-400 dark:bg-emerald-600';}
   return 'bg-emerald-500 dark:bg-emerald-400';
+}
+
+function selectBestWindow(days: ContributionDay[]): {
+  days: ContributionDay[];
+  months: number;
+} {
+  const now = new Date();
+
+  const windows = [3, 2, 1].map((months) => {
+    const cutoff = new Date();
+    cutoff.setMonth(now.getMonth() - months);
+    const windowDays = days.filter((d) => new Date(d.date) >= cutoff);
+    const activeDays = windowDays.filter((d) => d.contributionCount > 0).length;
+    const density = activeDays / windowDays.length;
+    return { months, days: windowDays, density };
+  });
+
+  // Start from longest, fall back to shorter if too sparse
+  const best = windows.find((w) => w.density >= 0.75);
+
+  // Fall back to 1 month if none meet the threshold
+  return best ?? { days: windows[2].days, months: 1 };
 }
 
 function groupIntoWeeks(days: ContributionDay[]): ContributionDay[][] {
@@ -39,7 +61,7 @@ function groupIntoWeeks(days: ContributionDay[]): ContributionDay[][] {
 export default function ContributionChart() {
   const { data: allDays = [], isLoading } = useQuery({
     queryKey: ['contributions'],
-    queryFn: getContributions,
+    queryFn: getContributionsAction,
     staleTime: 1000 * 60 * 60, // 1 hour
   });
 
