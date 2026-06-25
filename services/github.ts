@@ -38,13 +38,12 @@ function extractDescriptionFromReadme(readmeText: string): string {
   return firstParagraph;
 }
 
-export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
+export async function fetchFeaturedProjects(): Promise<FeaturedProject[]> {
   const token = process.env.GITHUB_TOKEN;
   const githubUsername = process.env.GITHUB_USERNAME;
 
-  if (!token) {
-    console.error('Missing GITHUB_TOKEN environment variable.');
-    return [];
+  if (!token || !githubUsername) {
+    throw new Error('Missing GitHub configuration environment variables.');
   }
 
   const query = `

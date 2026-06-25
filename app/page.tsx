@@ -8,15 +8,15 @@ import About from '@/components/About';
 import Hero from '@/components/Hero';
 import Projects from '@/components/Projects';
 import { getAboutContent } from '@/services/markdown';
-import { getContributions } from '@/services/githubContributions';
-import { getFeaturedProjects } from '@/services/github';
+import { getContributionsAction } from '@/actions/githubContributions';
+import { getFeaturedProjectsAction } from '@/actions/github';
 import { getResumeData } from '@/services/resume';
 
 async function preFetchData(queryClient: QueryClient) {
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: ['featured-projects'],
-      queryFn: getFeaturedProjects,
+      queryFn: getFeaturedProjectsAction,
     }),
     queryClient.prefetchQuery({
       queryKey: ['resume-data'],
@@ -24,7 +24,7 @@ async function preFetchData(queryClient: QueryClient) {
     }),
     queryClient.prefetchQuery({
       queryKey: ['contributions'],
-      queryFn: getContributions,
+      queryFn: getContributionsAction,
     }),
   ]);
 }
