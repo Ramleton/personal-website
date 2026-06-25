@@ -1,5 +1,5 @@
-import { GithubResponse } from '@/types/github';
 import { FeaturedProject } from '@/types/projects';
+import { GithubResponse } from '@/types/github';
 
 // Utility helper to clean up raw Markdown text if we need to fall back to the README
 function extractDescriptionFromReadme(readmeText: string): string {
@@ -58,6 +58,16 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
               url
 							homepageUrl
               stargazerCount
+              pushedAt
+              defaultBranchRef {
+                target {
+                  ... on Commit {
+                    history {
+                      totalCount
+                    }
+                  }
+                }
+              }
               repositoryTopics(first: 10) {
                 nodes {
                   topic {
@@ -65,7 +75,6 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
                   }
                 }
               }
-              # 💡 FETCH THE REAL LANGUAGES ENCODED IN THE DISK DIRECTORY
               languages(first: 4, orderBy: {field: SIZE, direction: DESC}) {
                 nodes {
                   name
@@ -135,6 +144,8 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
         slug: repo.name,
         stars: repo.stargazerCount,
         tags: combinedTags,
+        lastUpdated: repo.pushedAt,
+        commitCount: repo.defaultBranchRef?.target?.history?.totalCount ?? null,
       };
     });
   } catch (error) {

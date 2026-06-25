@@ -1,14 +1,16 @@
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from '@tanstack/react-query';
+
 import About from '@/components/About';
 import Hero from '@/components/Hero';
 import Projects from '@/components/Projects';
-import { getFeaturedProjects } from '@/services/github';
 import { getAboutContent } from '@/services/markdown';
+import { getContributions } from '@/services/githubContributions';
+import { getFeaturedProjects } from '@/services/github';
 import { getResumeData } from '@/services/resume';
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query';
 
 async function preFetchData(queryClient: QueryClient) {
   await Promise.all([
@@ -19,6 +21,10 @@ async function preFetchData(queryClient: QueryClient) {
     queryClient.prefetchQuery({
       queryKey: ['resume-data'],
       queryFn: getResumeData,
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ['contributions'],
+      queryFn: getContributions,
     }),
   ]);
 }

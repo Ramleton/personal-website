@@ -6,4 +6,6 @@ export interface FeaturedProject {
   url: string;
   liveUrl: string | null;
   stars: number;
+  lastUpdated: string;
+  commitCount: number | null;
 }

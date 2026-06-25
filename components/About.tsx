@@ -1,5 +1,6 @@
-import { marked } from 'marked';
+import ContributionChart from './ContributionChart';
 import Slideshow from './Slideshow';
+import { marked } from 'marked';
 
 interface AboutProps {
   initialContent: string;
@@ -25,6 +26,7 @@ export default function About({ initialContent }: AboutProps) {
               Based in Ontario, Canada
             </span>
           </div>
+          <ContributionChart />
         </div>
 
         {/* 📝 Right Column: Who you are & your engineering focus */}

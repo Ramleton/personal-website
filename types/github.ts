@@ -8,6 +8,14 @@ export interface GithubResponse {
           url: string;
 					homepageUrl: string | null;
           stargazerCount: number;
+          pushedAt: string;
+          defaultBranchRef: {
+            target: {
+              history: {
+                totalCount: number;
+              }
+            }
+          } | null;
           repositoryTopics: {
             nodes: {
               topic: {

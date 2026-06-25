@@ -69,7 +69,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* 🔗 Isolated Action Links Container */}
-      <div className='mt-6 flex items-center gap-4 border-t border-zinc-100 pt-4 dark:border-zinc-800/60'>
+      <div className='mt-6 border-t border-zinc-100 pt-4 dark:border-zinc-800/60 space-y-3'>
+      <div className='flex items-center justify-between gap-4'>
         {/* GitHub Link Button */}
         <a
           href={project.url}
@@ -140,6 +141,54 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             )}
           </>
         )}
+      </div>
+
+      <div className='flex items-center justify-between gap-4'>
+
+        {/* Commit Count */}
+        {project.commitCount !== null && (
+          <span className='inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='h-3.5 w-3.5'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+              />
+            </svg>
+            {project.commitCount} commits
+          </span>
+        )}
+
+        {/* Last Updated */}
+        <span className='inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='h-3.5 w-3.5'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+            />
+          </svg>
+          Last Updated {new Date(project.lastUpdated).toLocaleDateString('en-CA', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+          </span>
+        </div>
       </div>
     </div>
   );
