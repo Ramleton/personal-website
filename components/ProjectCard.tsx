@@ -186,6 +186,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
+            timeZone: 'UTC',
           })}
           </span>
         </div>
