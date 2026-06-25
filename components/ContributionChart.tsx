@@ -61,7 +61,7 @@ export default function ContributionChart() {
   return (
     <div className='mt-3 w-full px-1'>
       <div className='mb-1.5 flex items-center justify-between'>
-        <p className='font-mono text-xs text-zinc-400 dark:text-zinc-500'>
+        <p className='font-mono text-xs text-zinc-600 dark:text-zinc-300'>
           {totalContributions} contributions in the last{' '}
           {months === 1 ? 'month' : `${months} months`}
         </p>
