@@ -6,6 +6,28 @@ function getThreeMonthsAgo(): string {
   return date.toISOString();
 }
 
+export function selectBestWindow(days: ContributionDay[]): {
+  days: ContributionDay[];
+  months: number;
+} {
+  const now = new Date();
+
+  const windows = [3, 2, 1].map((months) => {
+    const cutoff = new Date();
+    cutoff.setMonth(now.getMonth() - months);
+    const windowDays = days.filter((d) => new Date(d.date) >= cutoff);
+    const activeDays = windowDays.filter((d) => d.contributionCount > 0).length;
+    const density = activeDays / windowDays.length;
+    return { months, days: windowDays, density };
+  });
+
+  // Start from longest, fall back to shorter if too sparse
+  const best = windows.find((w) => w.density >= 0.75);
+
+  // Fall back to 1 month if none meet the threshold
+  return best ?? { days: windows[2].days, months: 1 };
+}
+
 export async function getContributions(): Promise<ContributionDay[]> {
   const token = process.env.GITHUB_TOKEN;
   const githubUsername = process.env.GITHUB_USERNAME;
