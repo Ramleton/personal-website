@@ -91,7 +91,7 @@ export default function ContributionChart() {
 
       <div className='flex w-full gap-1 sm:gap-1.5'>
         {weeks.map((week, wi) => (
-          <div key={wi} className='flex flex-1 flex-col gap-1 sm:gap-1.5 suppressHydrationWarnings'>
+          <div key={wi} className='flex flex-1 flex-col gap-1 sm:gap-1.5 suppressHydrationWarning'>
             {week.map((day, di) => {
               const [year, month, dayNum] = day.date.split('-');
               const label = new Date(
