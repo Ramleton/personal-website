@@ -1,7 +1,8 @@
 'use client';
 
+import { getContributions, selectBestWindow } from '@/services/githubContributions';
+
 import { ContributionDay } from '@/types/githubContributions';
-import { getContributions } from '@/services/githubContributions';
 import { useQuery } from '@tanstack/react-query';
 
 function getColor(count: number): string {
@@ -12,8 +13,31 @@ function getColor(count: number): string {
   return 'bg-emerald-500 dark:bg-emerald-400';
 }
 
+function groupIntoWeeks(days: ContributionDay[]): ContributionDay[][] {
+  const weeks: ContributionDay[][] = [];
+  let week: ContributionDay[] = [];
+
+  if (days.length > 0) {
+    for (let i = 0; i < days[0].weekday; i++) {
+      week.push({ date: '', contributionCount: -1, weekday: i });
+    }
+  }
+
+  for (const day of days) {
+    week.push(day);
+    if (day.weekday === 6) {
+      weeks.push(week);
+      week = [];
+    }
+  }
+
+  if (week.length > 0) {weeks.push(week);}
+
+  return weeks;
+}
+
 export default function ContributionChart() {
-  const { data: days = [], isLoading } = useQuery({
+  const { data: allDays = [], isLoading } = useQuery({
     queryKey: ['contributions'],
     queryFn: getContributions,
     staleTime: 1000 * 60 * 60, // 1 hour
@@ -25,52 +49,50 @@ export default function ContributionChart() {
     );
   }
 
-  if (!days.length) {return null;}
+  if (!allDays.length) {return null;}
 
-  // Group days into weeks
-  const weeks: ContributionDay[][] = [];
-  let currentWeek: ContributionDay[] = [];
-
-  days.forEach((day) => {
-    currentWeek.push(day);
-    if (day.weekday === 6) {
-      weeks.push(currentWeek);
-      currentWeek = [];
-    }
-  });
-  if (currentWeek.length > 0) {weeks.push(currentWeek);}
-
+  const { days, months } = selectBestWindow(allDays);
+  const weeks = groupIntoWeeks(days);
   const totalContributions = days.reduce(
     (sum, day) => sum + day.contributionCount,
     0,
   );
 
   return (
-    <div className='mt-3 px-1'>
+    <div className='mt-3 w-full px-1'>
       <div className='mb-1.5 flex items-center justify-between'>
         <p className='font-mono text-xs text-zinc-400 dark:text-zinc-500'>
-          {totalContributions} contributions in the last 3 months
+          {totalContributions} contributions in the last{' '}
+          {months === 1 ? 'month' : `${months} months`}
         </p>
       </div>
 
-      <div className='flex gap-1.5'>
+      <div className='flex w-full gap-1 sm:gap-1.5'>
         {weeks.map((week, wi) => (
-          <div key={wi} className='flex flex-col gap-1'>
+          <div key={wi} className='flex flex-1 flex-col gap-1 sm:gap-1.5'>
             {week.map((day, di) => {
-							const [year, month, dayNum] = day.date.split('-');
-							const label = new Date(Number(year), Number(month) - 1, Number(dayNum))
-								.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
-							return day.contributionCount === -1 ? (
-								<div key={`pad-${di}`} className='h-2.5 w-2.5' />
-							) : (
-								<div
-									key={day.date}
-									title={`${day.contributionCount} contributions on ${label}`}
-									className={`h-3.5 w-3.5 rounded-[2px] ${getColor(day.contributionCount)}`}
-								/>
-							);
-						}
-					)}
+              const [year, month, dayNum] = day.date.split('-');
+              const label = new Date(
+                Number(year),
+                Number(month) - 1,
+                Number(dayNum)
+              ).toLocaleDateString('en-CA', {
+                month: 'short',
+                day: 'numeric',
+              });
+
+              return day.contributionCount === -1 ? (
+                <div key={`pad-${di}`} className='w-full aspect-square' />
+              ) : (
+                <div
+                  key={day.date}
+                  title={`${day.contributionCount} contributions on ${label}`}
+                  className={`w-full aspect-square rounded-[2px] sm:rounded-sm ${getColor(
+                    day.contributionCount
+                  )}`}
+                />
+              );
+            })}
           </div>
         ))}
       </div>
