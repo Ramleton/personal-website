@@ -51,6 +51,12 @@ export async function fetchGithubContributions(): Promise<ContributionDay[]> {
   }
 
   const responseData: ContributionsResponse = await res.json();
+  
+  if (responseData.errors) {
+    console.error('GitHub GraphQL errors:', responseData.errors);
+    throw new Error(`GitHub GraphQL error: ${responseData.errors[0].message}`);
+  }
+  
   const weeks =
     responseData.data?.user?.contributionsCollection?.contributionCalendar
       ?.weeks ?? [];

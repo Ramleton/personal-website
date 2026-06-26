@@ -106,6 +106,12 @@ export async function fetchFeaturedProjects(): Promise<FeaturedProject[]> {
     }
 
     const responseData: GithubResponse = await res.json();
+
+    if (responseData.errors) {
+      console.error('GitHub GraphQL errors:', responseData.errors);
+      throw new Error(`GitHub GraphQL error: ${responseData.errors[0].message}`);
+    }
+
     const pinnedNodes = responseData.data?.user?.pinnedItems?.nodes || [];
 
     return pinnedNodes.map((repo) => {

@@ -35,4 +35,5 @@ export interface GithubResponse {
       };
     };
   };
+  errors: Error[];
 }

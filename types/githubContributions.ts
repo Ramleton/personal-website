@@ -16,4 +16,5 @@ export interface ContributionsResponse {
       };
     };
   };
+  errors: Error[];
 }
