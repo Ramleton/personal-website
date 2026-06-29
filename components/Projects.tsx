@@ -1,13 +1,13 @@
 'use client';
 
 import ProjectCard from './ProjectCard';
-import { fetchFeaturedProjects } from '@/services/github';
+import { getFeaturedProjectsAction } from '@/actions/github';
 import { useQuery } from '@tanstack/react-query';
 
 export default function Projects() {
   const { data: featuredProjects, error } = useQuery({
     queryKey: ['featured-projects'],
-    queryFn: fetchFeaturedProjects,
+    queryFn: getFeaturedProjectsAction,
   });
 
   // Graceful fallback UI in case the GitHub network handshake completely fails
